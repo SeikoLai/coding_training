@@ -1,3 +1,4 @@
+import Foundation
 var test1 = [4, 10, 5, 4, 2, 10] // 5
 var test2 = [1, 4, 3, 3, 1, 2] // 4
 var test3 = [6, 4, 4, 6] // -1
@@ -78,3 +79,105 @@ func strSymmetryPoint(_ s: inout String) -> Int {
 
 let strSymmetryPointResult = strSymmetryPoint(&strSymmetryPointTest1)
 
+
+//// (5, (3, (20, None, None), (21, None, None)), (10, (1, None, None), None))
+//
+//// Data structure
+//class Tree {
+//    var x: Int = 0
+//    var l: Tree?
+//    var r: Tree?
+//    init() {}
+//}
+//
+//// Test object
+//func createTree(_ s: String) -> Tree? {
+//    return Tree()
+//}
+//
+///// A non-empty tree is represented by a pointer to an object representing its root. The attribute x holds the integer contained in the root, whereas attributes l and r hold the left and right subtrees of the binary tree, respectively.
+//func treeHeight(_ T: Tree?) -> Int? {
+//    // An empty tree is represented by an empty pointer (denoted by nil).
+//    guard T != nil else {
+//        return nil
+//    }
+//    return 0
+//}
+
+
+func findOneInBinary(_ A: Int, _ B: Int) -> Int {
+    // assume
+    guard  A * B > 0 && A * B < 100_000_000 else {
+        return 0
+    }
+    let number = A * B
+    // convert string to binary
+    let string = String(number, radix: 2)
+    // get string length
+    let length = string.count
+    // used to shift index
+    var index = 0
+    // calculate the true value times
+    var count = 0
+    while index < length {
+        // get char index
+        let stringIndex = string.index(string.startIndex, offsetBy: index)
+        // compare char at index is equal "1" or not then decide add 1 or 0 to the count
+        count = string[stringIndex] == "1" ? count + 1 : count
+        // increment index to shift binary
+        index = index + 1
+    }
+    return count
+}
+
+let findOneInBinaryResult1 = findOneInBinary(3, 7)
+let findOneInBinaryResult2 = findOneInBinary(7, 500000000)
+
+var noInstanceOfThreeIdenticalConsecutiveLettersTest1 = "baaaaa"
+var noInstanceOfThreeIdenticalConsecutiveLettersTest2 = "baaabbaabbba"
+
+func noInstanceOfThreeIdenticalConsecutiveLetters(_ S: inout String) -> Int {
+    // prepare assume
+    let string = S
+    let range = NSRange(location: 0, length: string.utf16.count)
+    let regex = try! NSRegularExpression(pattern: "[a|b]")
+    // assume
+    guard regex.firstMatch(in: string, range: range) != nil else {
+        return 0
+    }
+    guard string.count > -1 && string.count < 200_000 else {
+        return 0
+    }
+    
+    let length = string.count
+    // used to shift index
+    var index = 0
+    // calculate the same char times
+    var match = 0
+    // if the same char times equal 2, the count plus 1
+    var changeCount = 0
+    var char: Character?
+    while index < length {
+        // get string index
+        let currentIndex = string.index(string.startIndex, offsetBy: index)
+        // if current sting is the same char then match plus 1
+        if string[currentIndex] == char {
+            match = match + 1
+        }
+        // assign current string to char
+        char = string[currentIndex]
+        // if match the same char three times
+        if match == 3 {
+            // let the match equal to 0 recalculate match count
+            match = 0
+            // change alphabet count plus 1
+            changeCount = changeCount + 1
+        }
+        // increment index to get next char
+        index = index + 1
+    }
+    
+    return changeCount
+}
+
+let noInstanceOfThreeIdenticalConsecutiveLettersResult = noInstanceOfThreeIdenticalConsecutiveLetters(&noInstanceOfThreeIdenticalConsecutiveLettersTest2)
